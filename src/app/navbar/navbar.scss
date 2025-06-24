@@ -1,0 +1,47 @@
+nav{
+    .container{
+        
+        
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 2rem 0;
+        
+
+        .links{
+            a{
+                margin:  0 1rem;
+                text-decoration: none;
+                color: black;
+                cursor: pointer;
+                font-size: 20px;
+                position: relative;
+            }
+            span{
+                background-color: #d9d9d9;
+                border-radius: 50%;
+                color: black;
+                
+                width: 30px;
+                height: 30px;
+                text-align: center;
+                position: absolute;
+                top: 2%;
+                left: 80%;
+                
+                
+            }
+        }
+       i{
+        font-size: 27px;
+        
+       }
+    }
+
+a.active {
+  font-weight: bold;
+  color: #007bff;
+  text-decoration: underline;
+}
+
+}

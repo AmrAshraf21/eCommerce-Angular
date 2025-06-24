@@ -1,0 +1,122 @@
+<section class="product-details py-5">
+    <div class="container">
+        <div class="row row-cols-lg-2 ">
+            <div class="col bg-light  rounded-4 left">
+                <img [src]="product().thumbnail" alt="">
+            </div>
+            <div class="col right ps-5">
+                <h2 class="fs-2 fw-bold">{{product().title}}</h2>
+                <p class="fs-5 mt-4">{{product().description}}</p>
+                <div class="rates pb-4">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <span class="mx-3">({{product().reviews?.length}})</span>
+                </div>
+
+                <hr>
+
+                <p class="mb-0 fs-1 fw-semibold">{{product().price | currency}} or 99.99/month</p>
+                <span class="d-inline-block mb-4">Suggested payments with 6 month special financing</span>
+                <hr>
+
+                @if(product()!.stock > 0){
+                <span class="stock">In Stock</span>
+
+                }@else {
+                <span class="out-stock">Out of stock</span>
+                }
+
+                <a href="" class="text-black d-block mt-3">More Information</a>
+
+                <div class="info mt-4">
+                    <p class="cat">{{product().category}}</p>
+                    <p class="brand">{{product().brand}}</p>
+                </div>
+
+                <hr>
+                <div class="d-flex  align-items-center">
+                    <div class="counter">
+                        <i class="bi bi-dash"></i>
+                        <span class="fs-5">1</span>
+                        <i class="bi bi-plus-circle"></i>
+                    </div>
+                    <div class="mx-5 text-center pt-3">
+
+                        <p class="mb-0"> Only <span class="text-warning fw-semibold">{{product().stock}} items</span>
+                            Left!</p>
+                        <p>don't miss it</p>
+                    </div>
+
+                </div>
+
+                <div class="btns">
+                    <button class="buy">Buy Now</button>
+                    <button>Add to Cart</button>
+                </div>
+                <p class="mb-0 mt-3 text-danger ">Return Policy : {{product().returnPolicy}}</p>
+            </div>
+        </div>
+
+        <div class="row row-cols-lg-2 mt-4 slide">
+            @for (item of product().images; track $index)
+            {
+            <img [src]="item" class="w- mx-2 bg-light" alt="thumb">
+            }
+        </div>
+        <h2 class="mt-5">Reviews</h2>
+        <div class="reviews">
+            @for(review of product().reviews;track $index){
+            <div class="review">
+                <div class="info">
+                    <p>{{review.reviewerName}}</p>
+                    <span>{{review.reviewerEmail}}</span>
+
+                </div>
+                <p class="date">{{review.date}}</p>
+                <p class="comment">{{review.comment}}</p>
+                @switch (math.floor(review.rating))
+                {
+                @case(1){
+                <span><i class="bi bi-star-fill"></i></span>
+
+                }
+                @case(2){
+                <span><i class="bi bi-star-fill"></i></span>
+                <span><i class="bi bi-star-fill"></i></span>
+
+                }
+                @case(3){
+                <span><i class="bi bi-star-fill"></i></span>
+                <span><i class="bi bi-star-fill"></i></span>
+                <span><i class="bi bi-star-fill"></i></span>
+
+                }
+                @case(4){
+                <span><i class="bi bi-star-fill"></i></span>
+                <span><i class="bi bi-star-fill"></i></span>
+                <span><i class="bi bi-star-fill"></i></span>
+                <span><i class="bi bi-star-fill"></i></span>
+
+                }
+                @case(5){
+                <span><i class="bi bi-star-fill"></i></span>
+                <span><i class="bi bi-star-fill"></i></span>
+                <span><i class="bi bi-star-fill"></i></span>
+                <span><i class="bi bi-star-fill"></i></span>
+                <span><i class="bi bi-star-fill"></i></span>
+
+                }
+                @default {
+                    <h2>No Rating Provided</h2>
+                }
+                }
+            </div>
+            }
+
+
+        </div>
+    </div>
+</section>

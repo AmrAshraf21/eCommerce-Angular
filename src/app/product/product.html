@@ -1,0 +1,36 @@
+<div class="col">
+    <div class="card  rounded rounded-5 position-relative">
+        @if(product()!.stock > 0){
+            <span class="stock">In Stock</span>
+            
+        }@else {
+            <span class="out-stock">Out of stock</span>
+        }
+
+        <a [routerLink]="['/products',product()?.id]">
+            
+            @if(product()?.thumbnail){
+                
+                <img [src]="product()?.thumbnail"  class="rounded-top-5 bg-light card-img-top" [alt]="product()?.title">
+            }
+            @else {
+                <h2>No Image Provided</h2>
+            }
+        </a>
+        <div class="card-body">
+            <div class="info d-flex justify-content-between">
+                <h5 class="card-title fs-5 fw-bold">{{product()?.title}}</h5>
+                <span class="fw-bold fs-5 text-success">{{product()?.price | currency}}</span>
+            </div>
+            <p class="card-text mt-2 fw-bold mb-0">{{product()?.description}}</p>
+            <div class="rates">
+               <i class="bi bi-star-fill"></i>
+               <i class="bi bi-star-fill"></i>
+               <i class="bi bi-star-fill"></i>
+               <i class="bi bi-star-fill"></i>
+               <i class="bi bi-star-fill"></i>
+            </div>
+            <button class="btn btn-success rounded-5 py-2 px-4 mt-4" (click)="addTocCart(product())">Add To Cart</button>
+        </div>
+    </div>
+</div>

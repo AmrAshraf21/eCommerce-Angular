@@ -1,0 +1,173 @@
+<div class="wrapper">
+    <div class="container">
+
+  <h2>Registration</h2>
+  
+  <form action="#" [formGroup]="registrationForm" (ngSubmit)="submit()">
+    <div class="input-box">
+      <label for="">Name</label>
+      <input type="text" placeholder="Enter your name" formControlName="name">
+      @if(NameProp?.touched && NameProp?.errors){
+      @if(NameProp?.getError('required')){
+      <small>this filed is required</small>
+      }
+      }
+    </div>
+
+
+    <div class="input-box">
+      <label for="">Email</label>
+      <input type="email" placeholder="Enter your email" formControlName="email">
+      @if(EmailProp?.touched && EmailProp?.errors){
+      @if(EmailProp?.getError('required')){
+      <small>Email can't be empty</small>
+      }
+      @if(EmailProp?.getError('pattern')){
+      <small>invalid email format</small>
+      }
+      }
+    </div>
+
+
+    <div class="input-box">
+      <label for="">Username</label>
+      <input type="text" placeholder="Username" formControlName="username">
+      @if(UsernameProp?.touched && UsernameProp?.errors){
+      @if(UsernameProp?.getError('required')){
+      <small>username is required</small>
+      }
+      @if(UsernameProp?.getError('pattern')){
+      <small>username can't be empty or contain spaces</small>
+      }
+
+      }
+
+    </div>
+
+
+
+    <div class="input-box">
+      <label for="">Password</label>
+      <input type="password" placeholder="Password" formControlName="password">
+      @if(PasswordProp?.touched && PasswordProp?.errors){
+      @if(PasswordProp?.getError('required')){
+      <small>Password is required</small>
+      }
+      @if(PasswordProp?.getError('pattern')){
+      <small>Password must be at least 8 characters long and contain:
+        <ul>
+          <li>One uppercase letter</li>
+          <li>One lowercase letter</li>
+          <li>One number</li>
+          <li>One special character ($!%*?&)</li>
+        </ul>
+      </small>
+      }
+      }
+    </div>
+
+
+    <div class="input-box">
+      <label for="">Confirm Password</label>
+      <input type="password" placeholder="Confirm password" formControlName="confirmPassword">
+
+      @if(ConfirmPassword?.touched && ConfirmPassword?.errors){
+      @if(ConfirmPassword?.getError('required')){
+      <small>Please confirm your password</small>
+      }
+      @if(ConfirmPassword?.getError('mismatch') ){
+      <small>Passwords do not match</small>
+      }
+      }
+
+      
+    </div>
+
+    <div formArrayName="addresses">
+
+    @for(addr of Address.controls;track $index;let i = $index){
+
+      <div class="container-input" [formGroupName]="i">
+        
+        <input type="text" class="address-input" formControlName="address" placeholder="Address">
+        @if (addr.get('address')?.invalid && addr.get('address')?.touched) {
+          <small>Address is required</small>
+          }
+        <input type="text" class="address-input" formControlName="country" placeholder="Country">
+        <br>
+         @if (addr.get('country')?.invalid && addr.get('country')?.touched) {
+          <small>Country is required</small>
+          }
+        <input type="text" class="address-input" formControlName="city"  placeholder="City" >
+        <br>
+          @if (addr.get('city')?.invalid && addr.get('city')?.touched) {
+          <small>City is required</small>
+          }
+        <input type="text" class="address-input" formControlName="street" placeholder="Street">
+          @if(addr.get('street')?.invalid && addr.get('street')?.touched){
+          <small>Street Is Required</small>
+          }
+        <button class="btn-address" (click)="onDeleteAddress(i)">Delete</button>
+      </div>
+    }@empty {
+      <h3>No Address Provided Yet</h3>
+    }
+      
+      </div>
+
+<!--     
+    <div formArrayName="addresses">
+      
+      @for (addr of Address.controls; track $index ; let i = $index) {
+      <div [formGroupName]="i">
+        <h4>address {{i+1}}</h4>
+
+   <div>
+          <label>Address</label>
+          <input type="text" formControlName="address">
+          @if (addr.get('address')?.invalid && addr.get('address')?.touched) {
+          <small>Address is required</small>
+          }
+        </div>
+
+        <div>
+          <label>Country</label>
+          <input type="text" formControlName="country">
+          @if (addr.get('country')?.invalid && addr.get('country')?.touched) {
+          <small>Country is required</small>
+          }
+        </div>
+        <div>
+          <label>City</label>
+          <input type="text" formControlName="city">
+          @if (addr.get('city')?.invalid && addr.get('city')?.touched) {
+          <small>City is required</small>
+          }
+        </div>
+
+
+
+        <div>
+          <label for="">Street</label>
+          <input type="text" formControlName="street" name="" id="">
+          @if(addr.get('street')?.invalid && addr.get('street')?.touched){
+          <small>Street Is Required</small>
+          }
+        </div>
+        <button (click)="onDeleteAddress(i)">Delete</button>
+      </div>
+      }
+    </div> -->
+
+
+    <div class="input-box button">
+      <button (click)="onAddNewAddress()">Add Address</button>
+      <input type="Submit" value="Register Now">
+    </div>
+    <div class="text">
+      <h3>Already have an account? <a routerLink="/login">Login now</a></h3>
+    </div>
+  </form>
+      </div>
+
+</div>

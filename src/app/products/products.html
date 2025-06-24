@@ -1,0 +1,14 @@
+<section class="product">
+    <div class="container">
+        <h2 class="fs-5 ">Welcome to our shopping websites, start Browsing...</h2>
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3  g-4 mt-5">
+
+        @for(prod of arrOfProducts(); track $index){
+        <app-product [product]="prod"></app-product>
+
+        }
+    </div>
+
+        </div>
+
+</section>

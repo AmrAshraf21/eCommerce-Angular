@@ -1,0 +1,26 @@
+
+<nav>
+    <div class="container">
+        
+            
+            <div class="left">
+                <a class="text-decoration-none" [routerLink]="['/products']">
+
+                    <h1>Product App</h1>
+                </a>
+                
+            </div>
+            
+            <div class="links ">
+                
+                <a routerLinkActive="active" routerLink="/register">Register</a>
+                <a routerLinkActive="active" routerLink="login">Login</a>
+               <a [routerLink]="['checkout']"> <i class="bi bi-cart4"></i></a>
+                <span>{{productService.cartCount()}}</span>
+            </div>
+        
+    </div>
+
+
+
+</nav>

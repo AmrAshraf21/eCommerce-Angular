@@ -1,0 +1,27 @@
+i{
+    color: #0aa80f;
+    cursor: pointer;
+}
+.stock{
+position: absolute;
+    background-color: #319c28;
+    padding: 0.1rem 1.5rem;
+    border-radius: 20px;
+    color: white;
+    left: 5%;
+    top: 1%;
+}
+
+.out-stock{
+    position: absolute;
+    background-color: #bc3031;
+     padding: 0.1rem 1.5rem;
+    border-radius: 20px;
+    color: white;
+    left: 5%;
+    top: 1%;
+}
+
+img{
+    cursor: pointer;
+}

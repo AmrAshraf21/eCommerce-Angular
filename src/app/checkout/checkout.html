@@ -1,0 +1,108 @@
+<section class="check">
+    <div class="container">
+<div class="checkout-container">
+  <h2>Your Shopping Cart</h2>
+  
+  <div *ngIf="cartItems().length === 0" class="empty-cart">
+    <p>Your cart is empty</p>
+    <a [routerLink]="['/products']" class="btn">Continue Shopping</a>
+  </div>
+
+  <div *ngIf="cartItems().length > 0">
+    <div class="cart-items">
+      <div *ngFor="let item of cartItems()" class="cart-item">
+        <img [src]="item.thumbnail" [alt]="item.title" class="product-image">
+        <div class="item-details">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.description }}</p>
+          <p>Price: ${{ item.price }}</p>
+          <button (click)="removeItem(item.id)" class="remove-btn">Remove</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cart-summary">
+      <h3>Order Summary</h3>
+      <p>Total Items: {{ cartItems().length }}</p>
+      <p>Total Price: ${{ totalPrice }}</p>
+      <button (click)="checkout()" class="checkout-btn">Proceed to Checkout</button>
+      <button (click)="clearCart()" class="clear-btn">Clear Cart</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- <h3>Cart</h3>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Description</th>
+
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Remove</th>
+                    <th scope="col">Price</th>
+                </tr>
+            </thead>
+            @for (item of products; track $index) {
+            <tbody>
+                <tr>
+                    <th scope="row d-flex">
+                        <div class="left">
+                            <img [src]="item.thumbnail" class="bg-ligh w-25" alt="">
+                        </div>
+                     <p>{{item.title}}</p>
+                    </th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>mdo</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>fat</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td colspan="2">Larry the Bird</td>
+                    <td>twitter</td>
+                </tr>
+            </tbody>
+            
+            
+            
+            
+        }
+        @empty {
+            <h2>No Products Found</h2>
+        }
+        
+    </table> -->
+
+
+    </div>
+
+
+</section>
