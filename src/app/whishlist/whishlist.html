@@ -1,0 +1,38 @@
+<section class="check">
+    <div class="container">
+<div class="checkout-container">
+  <h2>Your Wishlist Cart</h2>
+  
+  <div *ngIf="wishlist.wishlistItems().length ===0 " class="empty-cart">
+    <p>Your cart is empty</p>
+    <a [routerLink]="['/products']" class="btn">Continue Shopping</a>
+  </div>
+
+  <div *ngIf="wishlist.wishlistItems().length">
+    <div class="cart-items">
+      <div *ngFor="let item of wishlist.wishlistItems()" class="cart-item">
+        <img [src]="item.thumbnail" [alt]="item.title" class="product-image">
+        <div class="item-details">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.description }}</p>
+          <p>Price: ${{ item.price }}</p>
+          <button (click)="removeItem(item.id)" class="remove-btn">Remove</button>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="cart-summary">
+      <h3>Wishlist Summary</h3>
+     
+      
+      <button (click)="wishlist.clearWishlist()" class="clear-btn">Clear Wishlist</button>
+  </div>
+      
+     
+-     
+    </div>
+</div>
+
+

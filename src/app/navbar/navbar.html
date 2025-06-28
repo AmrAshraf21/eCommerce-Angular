@@ -15,8 +15,11 @@
                 
                 <a routerLinkActive="active" routerLink="/register">Register</a>
                 <a routerLinkActive="active" routerLink="login">Login</a>
-               <a [routerLink]="['checkout']"> <i class="bi bi-cart4"></i></a>
-                <span>{{productService.cartCount()}}</span>
+               <a [routerLink]="['checkout']"> <i class="bi bi-cart4 car"></i></a>
+               <span class="cart">{{productService.cartCount()}}</span>
+
+               <a routerLink="wishlist"><i class="bi bi-suit-heart-fill"></i></a>
+               <span class="wish">{{wishlistStore.wishlistLength()}}</span>
             </div>
         
     </div>

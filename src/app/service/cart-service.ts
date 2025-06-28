@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { ProductService } from './product-service';
 
 @Injectable({
@@ -7,39 +7,34 @@ import { ProductService } from './product-service';
 export class CartService {
 
 
-private productService = inject(ProductService);
+  productService = inject(ProductService);
   private readonly CART_KEY = 'cart_products';
-  
-
-  private cartItems = signal<any>(this.getSavedCartItems());
+  private cartItems = signal<any>(this.productService.getSavedCartItems());
 
 
-   get cart() {
+  get cart() {
+
     return this.cartItems;
   }
 
-  addToCart(product: any) {
-    this.cartItems().push(product);
-    this.saveCartItems();
+
+ cartCount = computed(() => 
+    this.cartItems().reduce((sum, item) => sum + item.quantity, 0)
+  );
+
+  totalPrice = computed(() =>
+    this.cartItems().reduce((sum, item) => sum + (item.price * item.quantity), 0)
+  );
+
+  getCart() {
+    return this.cartItems.asReadonly();
   }
 
-  removeFromCart(productId: number) {
-    this.cartItems = this.cartItems().filter((item:any) => item.id !== productId);
-    this.saveCartItems();
+  getCartItem(productId: number) {
+    return this.cartItems().find(item => item.id === productId);
   }
 
-  clearCart() {
-    this.cartItems.update(_=>[]);
-    this.saveCartItems();
-  }
 
-  private saveCartItems() {
-    localStorage.setItem(this.CART_KEY, JSON.stringify(this.cartItems()));
-  }
 
-  private getSavedCartItems(){
-    const savedItems = localStorage.getItem(this.CART_KEY);
-    return savedItems ? JSON.parse(savedItems) : [];
-  }
 
 }

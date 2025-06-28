@@ -6,7 +6,11 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 })
 export class ProductService {
 
-  products = signal<any>([]);
+ 
+
+
+
+  products = signal<any>([]); 
 
   private readonly CART_KEY = 'user_cart';
 
@@ -14,49 +18,80 @@ export class ProductService {
 
   cartItems = signal<any>(this.getSavedCartItems());
 
+  
+  cartCount = computed(() => {
+    return this.cartItems().length;
+  });
 
-  cartCount = computed(()=>{
-    return this.cartItems().length > 0 ? this.cartItems().length : 0;
-  })
+  
+  totalCartQuantity = computed(() => {
+    return this.cartItems().reduce((sum, item) => sum + item.quantity, 0);
+  });
 
+  
   getProducts() {
     return this.httpClient.get('https://dummyjson.com/products');
   }
 
+
   getProductsById(id: number) {
-    
     return this.httpClient.get(`https://dummyjson.com/products/${id}`);
   }
 
+  addToCart(productToAdd) {
+    this.cartItems.update(prevItems => {
+      const existingItemIndex = prevItems.findIndex(item => item.id === productToAdd.id);
 
-
-  addToCart(product: any) {
-    this.cartItems.update(prev => {
-      const newCart = [...prev, product];
-      this.saveCartItems(newCart);
-      return newCart;
-    })
-  }
-
-  removeFromCart(productId: number) {
-    this.cartItems.update(prev => {
-      const newCart = prev.filter((item: any) => item.id !== productId);
-      this.saveCartItems(newCart);
-      return newCart;
+      if (existingItemIndex > -1) {
+        // If item exists, update its quantity
+        const newItems = [...prevItems];
+        newItems[existingItemIndex] = {
+          ...newItems[existingItemIndex],
+          quantity: productToAdd.quantity
+        };
+        this.saveCartItems(newItems);
+        return newItems;
+      } else {
+        // If item does not exist, add it
+        const newItems = [...prevItems, { ...productToAdd }];
+        this.saveCartItems(newItems);
+        return newItems;
+      }
     });
   }
+
+
+  removeFromCart(productId: number) {
+    this.cartItems.update(prevItems => {
+      const newItems = prevItems.filter(item => item.id !== productId);
+      this.saveCartItems(newItems);
+      return newItems;
+    });
+  }
+
+
+  getCartItem(productId: number) {
+    return this.cartItems().find(item => item.id === productId);
+  }
+
 
   clearCart() {
     this.cartItems.set([]);
     localStorage.removeItem(this.CART_KEY);
   }
 
-  private saveCartItems(items: any) {
+
+  private saveCartItems(items) {
     localStorage.setItem(this.CART_KEY, JSON.stringify(items));
   }
 
-  private getSavedCartItems() {
+
+   getSavedCartItems() {
     const saved = localStorage.getItem(this.CART_KEY);
     return saved ? JSON.parse(saved) : [];
   }
+
+
+
+
 }

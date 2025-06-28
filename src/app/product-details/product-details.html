@@ -1,122 +1,136 @@
-<section class="product-details py-5">
-    <div class="container">
-        <div class="row row-cols-lg-2 ">
-            <div class="col bg-light  rounded-4 left">
-                <img [src]="product().thumbnail" alt="">
+ <section class="product-details py-5">
+      <div class="container mx-auto px-4">
+        <a [routerLink]="['/products']" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mb-6 inline-block">
+          &larr; Back to Products
+        </a>
+
+        <div *ngIf="product(); else notFound" class="flex flex-col lg:flex-row gap-6 lg:gap-10 mt-4">
+          <div class="flex-1 bg-gray-100 rounded-lg p-4 flex items-center justify-center">
+            <img [src]="product()!.thumbnail"
+                 [alt]="product()!.title"
+                 width="400"
+                 height="400"
+                 class="max-w-full h-auto object-contain rounded-md">
+          </div>
+
+          <div class="flex-1 lg:pl-5">
+            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">{{ product()!.title }}</h2>
+            <p class="text-lg text-gray-700 mb-4">{{ product()!.description }}</p>
+
+            <!-- Reviews -->
+            <div class="flex items-center text-yellow-500 pb-4">
+              <ng-container *ngFor="let _ of getStarArray(product()!.rating || 0)">
+                <i class="bi bi-star-fill"></i>
+              </ng-container>
+              <span class="mx-3 text-gray-600">({{product()!.reviews?.length || 0}})</span>
             </div>
-            <div class="col right ps-5">
-                <h2 class="fs-2 fw-bold">{{product().title}}</h2>
-                <p class="fs-5 mt-4">{{product().description}}</p>
-                <div class="rates pb-4">
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <span class="mx-3">({{product().reviews?.length}})</span>
-                </div>
+            <hr class="my-4">
 
-                <hr>
+            <p class="mb-0 text-4xl font-semibold text-gray-900">{{product()!.price | currency}}</p>
+            <span class="inline-block mb-4 text-gray-600">Suggested payments with 6 month special financing</span>
+            <hr class="my-4">
 
-                <p class="mb-0 fs-1 fw-semibold">{{product().price | currency}} or 99.99/month</p>
-                <span class="d-inline-block mb-4">Suggested payments with 6 month special financing</span>
-                <hr>
-
-                @if(product()!.stock > 0){
-                <span class="stock">In Stock</span>
-
-                }@else {
-                <span class="out-stock">Out of stock</span>
-                }
-
-                <a href="" class="text-black d-block mt-3">More Information</a>
-
-                <div class="info mt-4">
-                    <p class="cat">{{product().category}}</p>
-                    <p class="brand">{{product().brand}}</p>
-                </div>
-
-                <hr>
-                <div class="d-flex  align-items-center">
-                    <div class="counter">
-                        <i class="bi bi-dash"></i>
-                        <span class="fs-5">1</span>
-                        <i class="bi bi-plus-circle"></i>
-                    </div>
-                    <div class="mx-5 text-center pt-3">
-
-                        <p class="mb-0"> Only <span class="text-warning fw-semibold">{{product().stock}} items</span>
-                            Left!</p>
-                        <p>don't miss it</p>
-                    </div>
-
-                </div>
-
-                <div class="btns">
-                    <button class="buy">Buy Now</button>
-                    <button>Add to Cart</button>
-                </div>
-                <p class="mb-0 mt-3 text-danger ">Return Policy : {{product().returnPolicy}}</p>
-            </div>
-        </div>
-
-        <div class="row row-cols-lg-2 mt-4 slide">
-            @for (item of product().images; track $index)
-            {
-            <img [src]="item" class="w- mx-2 bg-light" alt="thumb">
-            }
-        </div>
-        <h2 class="mt-5">Reviews</h2>
-        <div class="reviews">
-            @for(review of product().reviews;track $index){
-            <div class="review">
-                <div class="info">
-                    <p>{{review.reviewerName}}</p>
-                    <span>{{review.reviewerEmail}}</span>
-
-                </div>
-                <p class="date">{{review.date}}</p>
-                <p class="comment">{{review.comment}}</p>
-                @switch (math.floor(review.rating))
-                {
-                @case(1){
-                <span><i class="bi bi-star-fill"></i></span>
-
-                }
-                @case(2){
-                <span><i class="bi bi-star-fill"></i></span>
-                <span><i class="bi bi-star-fill"></i></span>
-
-                }
-                @case(3){
-                <span><i class="bi bi-star-fill"></i></span>
-                <span><i class="bi bi-star-fill"></i></span>
-                <span><i class="bi bi-star-fill"></i></span>
-
-                }
-                @case(4){
-                <span><i class="bi bi-star-fill"></i></span>
-                <span><i class="bi bi-star-fill"></i></span>
-                <span><i class="bi bi-star-fill"></i></span>
-                <span><i class="bi bi-star-fill"></i></span>
-
-                }
-                @case(5){
-                <span><i class="bi bi-star-fill"></i></span>
-                <span><i class="bi bi-star-fill"></i></span>
-                <span><i class="bi bi-star-fill"></i></span>
-                <span><i class="bi bi-star-fill"></i></span>
-                <span><i class="bi bi-star-fill"></i></span>
-
-                }
-                @default {
-                    <h2>No Rating Provided</h2>
-                }
-                }
-            </div>
+            <!-- Stock Status -->
+            @if(product()!.stock > 0){
+              <span class="text-green-600 font-semibold text-lg">In Stock</span>
+            }@else {
+              <span class="text-red-600 font-semibold text-lg">Out of stock</span>
             }
 
+            <a href="#" class="text-blue-600 hover:underline block mt-3">More Information</a>
 
+            <!-- Info (Category & Brand) -->
+            <div class="flex flex-wrap gap-x-4 mt-4 text-gray-700">
+              <p *ngIf="product()!.category" class="cat px-3 py-1 bg-gray-200 rounded-full text-sm font-medium">Category: {{product()!.category}}</p>
+              <p *ngIf="product()!.brand" class="brand px-3 py-1 bg-gray-200 rounded-full text-sm font-medium">Brand: {{product()!.brand}}</p>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="flex items-center gap-x-6">
+              <!-- Quantity Counter -->
+              <div class="counter flex items-center space-x-3">
+                <button (click)="decreaseQuantity()"
+                        class="btn btn-secondary me-5"
+                        [disabled]="quantity() === 0">
+                  <i class="bi bi-dash"></i>
+                </button>
+                <span class="text-2xl font-semibold">{{quantity() || 0}}</span>
+                <button (click)="increaseQuantity()"
+                        class="btn btn-primary ms-5"
+                       >
+                  <i class="bi bi-plus text-light"></i>
+                </button>
+              </div>
+
+              <!-- Stock Left Info -->
+              <div class="text-center pt-3">
+                <p class="mb-0 text-lg">
+                  Only <span class="text-success fw-semibold">{{product()!.stock}} items</span> Left!
+                </p>
+                <p class="text-sm text-gray-600">Don't miss it</p>
+              </div>
+            </div>
+
+            <div class="flex gap-x-4 mt-6">
+              <button  class="btn btn-success me-5">
+                Buy Now
+              </button>
+              <button (click)="addToCartClicked()"
+                      [disabled]="quantity() === 0"
+                      class="bg-green-600 hover:bg-green-700 text-white font-bold btn btn-danger rounded-lg text-xl transition duration-200 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed">
+                {{ quantity() === 0 ? 'Add to Cart' : 'Update Cart' }}
+              </button>
+            </div>
+            <p *ngIf="product()!.returnPolicy" class="mb-0 mt-3 text-red-600 text-sm">Return Policy : {{product()!.returnPolicy}}</p>
+          </div>
         </div>
-    </div>
-</section>
+
+        <!-- Product Images Slider (Simplified) -->
+        <h3 class="text-2xl font-bold text-gray-800 mt-8 mb-4">Product Gallery</h3>
+        <div class="flex flex-wrap gap-4 justify-center mt-4">
+          @for (item of product()?.images; track $index) {
+            <img [src]="item"
+                 [alt]="product()!.title + ' image ' + ($index + 1)"
+                 width="150"
+                 height="150"
+                 class="w-32 h-32 object-cover rounded-md shadow-sm bg-gray-100 cursor-pointer hover:scale-105 transition duration-200">
+          }
+        </div>
+
+        <!-- Reviews Section -->
+        <h2 class="text-2xl font-bold text-gray-800 mt-8 mb-4">Customer Reviews</h2>
+        <div class="reviews space-y-6">
+          @for(review of product()?.reviews;track $index){
+            <div class="review bg-white my-4 p-4 rounded-lg rounded-4 shadow-sm border border-gray-200">
+              <div class="flex justify-between items-center mb-2">
+                <div>
+                  <p class="font-semibold text-gray-900 fs-5 text-lg">{{review.reviewerName}}</p>
+                  <span class="text-sm text-secondary  text-gray-500">{{review.reviewerEmail}}</span>
+                </div>
+                <p class="text-sm text-secondary text-gray-500">{{review.date}}</p>
+              </div>
+              <p class="comment text-gray-700 mb-3 fs-4">{{review.comment}}</p>
+              <div class="flex items-center text-yellow-500">
+                <!-- Dynamic star rating for review -->
+                <ng-container *ngFor="let _ of getStarArray(review.rating)">
+                  <i class="bi bi-star-fill text-success"></i>
+                </ng-container>
+              </div>
+            </div>
+          } @empty {
+            <p class="text-center text-gray-600">No reviews available for this product yet.</p>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Not Found Message -->
+    <ng-template #notFound>
+      <div class="text-center py-12">
+        <p class="text-2xl text-red-600 font-semibold">Product not found!</p>
+        <a [routerLink]="['/products']" class="mt-6 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded inline-block">
+          Go Back
+        </a>
+      </div>
+    </ng-template>
